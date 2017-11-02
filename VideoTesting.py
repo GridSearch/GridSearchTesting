@@ -13,8 +13,6 @@ while(True):
 
     # Our operations on the frame come here
 
-    
-    # Test Git Update
 
     # Display the resulting frame
 #******************************************* Resized imaged shown to be smaller

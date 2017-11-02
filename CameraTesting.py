@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 
+#This tests convertig BGR to GRAY with laptop cam
+
 # Logan was here
 
 cap = cv2.VideoCapture(0)
