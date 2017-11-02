@@ -78,7 +78,7 @@ while(True):
     	print "Quitting"
         break
     if cv2.waitKey(1) & 0xFF == ord('a'):
-        cv2.imwrite('max.png',convertedimage)
+        cv2.imwrite('BlueGrid.png',res2)
         print "captured image"
         break
 
