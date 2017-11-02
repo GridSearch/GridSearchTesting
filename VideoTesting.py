@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+#Tests isolating red leds and blue boxs colors in buff_test_video_01.mpeg video file
 
 cap = cv2.VideoCapture("buff_test_video_01.mpeg")
 
