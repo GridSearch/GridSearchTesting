@@ -1,17 +1,22 @@
 import numpy as np
 import cv2
 
-# Logan was here
-
 cap = cv2.VideoCapture("buff_test_video_01.mpeg")
 
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
 
+    print(ret)
+    if ret == False:
+        continue
+
     # Our operations on the frame come here
+
     
     # Test Git Update
+
+    # Display the resulting frame
 #******************************************* Resized imaged shown to be smaller
     r = 500.0 / frame.shape[1]
     dim = (500, int(frame.shape[0] * r))
@@ -24,7 +29,7 @@ while(True):
 #define range of blue color in HSV
     lower_blue = np.array([100,50,50])
     upper_blue = np.array([130,255,255])
-    
+
 #define range of blue color in HSV
     lower_red = np.array([0,100,100])
 #define range of red color in HSV
@@ -35,7 +40,7 @@ while(True):
 # Threshold the HSV image to get only blue colors
     mask = cv2.inRange(convertedimage, lower_red, upper_red)
     mask2 = cv2.inRange(convertedimage, lower_blue, upper_blue)
-    
+
 # Bitwise-AND mask and original image
     #Consider making function
     res = cv2.bitwise_and(frame,frame, mask=mask)
@@ -53,7 +58,7 @@ while(True):
     k = cv2.waitKey(5) & 0xFF
     if k == 27: #ESC  to quit
         break
-    
+
 #*******************************************
 
     frame[100,100] = [0,0,0]				#draws a small straight black
@@ -81,4 +86,3 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-
