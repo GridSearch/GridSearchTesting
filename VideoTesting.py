@@ -11,7 +11,7 @@ while(True):
 
     # Our operations on the frame come here
     
-    # Display the resulting frame
+    # Test Git Update
 #******************************************* Resized imaged shown to be smaller
     r = 500.0 / frame.shape[1]
     dim = (500, int(frame.shape[0] * r))
