@@ -8,10 +8,6 @@ while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
 
-    print(ret)
-    if ret == False:
-        continue
-
     # Our operations on the frame come here
 
 
@@ -54,8 +50,11 @@ while(True):
     cv2.imshow('Blue_Boxes',res2)
     cv2.moveWindow('Blue_Boxes', 0, 350)
 
+    cv2.moveWindow('frame', 0, 0)      #Moves window to top left of screen
+
     k = cv2.waitKey(5) & 0xFF
     if k == 27: #ESC  to quit
+        print "Quitting"
         break
 
 #*******************************************
@@ -64,21 +63,22 @@ while(True):
     frame[101,100] = [0,0,0]				#line where pixels are
     frame[102,100] = [0,0,0]
 
-   # for x in range(260,460):
-    #    for y in range(540,740):
-     #       gray[x,y] = [0,0,0]
+#*******************************************
+#Red Contour lines
 
+    ret,thresh = cv2.threshold(mask,127,255,1)
 
+    im2,contours,h = cv2.findContours(thresh,1,2)
 
-    #cv2.imshow('frame',convertedimage)
+    cv2.drawContours(frame, contours, -1, (0,0,255), 2)
 
+    cv2.imshow('Contours',frame)
+    cv2.moveWindow('Contours',500,350)
 
-    cv2.moveWindow('frame', 0, 0)      #Moves window to top left of screen
-    if cv2.waitKey(1) & 0xFF == ord('q'):	#waitkey does not work
-    	print "Quitting"
-        break
+#*******************************************
+#captures image of frame then quits
     if cv2.waitKey(1) & 0xFF == ord('a'):
-        cv2.imwrite('BlueGrid.png',res2)
+        cv2.imwrite('BlueGrid.png',frame)
         print "captured image"
         break
 
