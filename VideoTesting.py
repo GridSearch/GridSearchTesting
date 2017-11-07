@@ -66,7 +66,7 @@ while(True):
 #*******************************************
 #Red Contour lines
 
-    ret,thresh = cv2.threshold(mask,127,255,1)
+    ret,thresh = cv2.threshold(mask2,127,255,1)
 
     im2,contours,h = cv2.findContours(thresh,1,2)
 
@@ -74,6 +74,12 @@ while(True):
 
     cv2.imshow('Contours',frame)
     cv2.moveWindow('Contours',500,350)
+
+
+
+    tempRec = cv2.minAreaRect(contours)
+    width = tempRec[0][1]
+    height = tempRec[1][1]
 
 #*******************************************
 #captures image of frame then quits
