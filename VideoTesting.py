@@ -88,7 +88,7 @@ while(True):
 #*******************************************
 #Crops images testing
 #NOTE: its frame[y: y + h, x: x + w] and *not* img[x: x + w, y: y + h]
-
+    '''
     x = CropBox[0][0] - 14
     y = CropBox[0][1] - 8
     w = CropBox[0][2]
@@ -102,19 +102,21 @@ while(True):
     crop_img2 = frame[y2:y2+h,x2:x2+w] #
     numpy_horizontal = np.hstack((crop_img,crop_img2))
     #cv2.imshow("cropped", numpy_horizontal)
-
+    '''
 #*******************************************
 #Crops image of boxes and stacks them vertically in same window
-    w = CropBox[0][2]
-    h = CropBox[0][3]
-    newcrop = np.zeros((h,w,3), np.uint8) #Empty image as a place holder
-    for values in CropBox:
-        x = values[0] - 14
-        y = values[1] - 8
-        crop_img = frame[y:y+h,x:x+w]
-        newcrop = np.hstack((newcrop,crop_img))
-    cv2.imshow("caa", newcrop)
-        
+    if CropBox:
+        w = CropBox[0][2]
+        h = CropBox[0][3]
+        newcrop = np.zeros((h,w,3), np.uint8) #Empty image as a place holder
+        for values in CropBox:
+            x = values[0] - 14
+            y = values[1] - 8
+            crop_img = frame[y:y+h,x:x+w]
+            newcrop = np.hstack((newcrop,crop_img))
+        newcrop = cv2.resize(newcrop,(0,0),None,3,3)
+        cv2.imshow('Cropping', newcrop)
+        cv2.moveWindow('Cropping', 0, 0)
 
 #*******************************************
 # Esc closes the program
