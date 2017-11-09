@@ -86,15 +86,36 @@ while(True):
     cv2.imshow('Original',frame)    #Show frame, currently need to get the countour lines off but still show it in "Contour" window
     cv2.moveWindow('Original', 0, 0)
 #*******************************************
-#Crops images
+#Crops images testing
 #NOTE: its frame[y: y + h, x: x + w] and *not* img[x: x + w, y: y + h]
+
     x = CropBox[0][0] - 14
     y = CropBox[0][1] - 8
     w = CropBox[0][2]
     h = CropBox[0][3]
-
+    x2 = CropBox[1][0] - 14
+    y2 = CropBox[1][1] - 8
+    w2 = CropBox[1][2]
+    h2 = CropBox[1][3]
+    
     crop_img = frame[y:y+h,x:x+w] # Crop from x, y, w, h -> 0, 0, 100, 100
-    cv2.imshow("cropped", crop_img)
+    crop_img2 = frame[y2:y2+h,x2:x2+w] #
+    numpy_horizontal = np.hstack((crop_img,crop_img2))
+    #cv2.imshow("cropped", numpy_horizontal)
+
+#*******************************************
+#Crops image of boxes and stacks them vertically in same window
+    w = CropBox[0][2]
+    h = CropBox[0][3]
+    newcrop = np.zeros((h,w,3), np.uint8) #Empty image as a place holder
+    for values in CropBox:
+        x = values[0] - 14
+        y = values[1] - 8
+        crop_img = frame[y:y+h,x:x+w]
+        newcrop = np.hstack((newcrop,crop_img))
+    cv2.imshow("caa", newcrop)
+        
+
 #*******************************************
 # Esc closes the program
 # 'a' captures a still image, saves it, then quits
