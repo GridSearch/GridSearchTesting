@@ -45,33 +45,31 @@ while(True):
     res = cv2.bitwise_and(frame,frame, mask=mask)
     res2 = cv2.bitwise_and(frame,frame, mask=mask2)
 
-#cv2.imshow('Original',frame)
-    cv2.moveWindow('Original', 0, 0)
-
+#Shows the Isolated colors in two different windows for red and blue
     cv2.imshow('RED_LED',res)
     cv2.moveWindow('RED_LED', 500, 0)
-
     cv2.imshow('Blue_Boxes',res2)
     cv2.moveWindow('Blue_Boxes', 0, 350)
 
 #*******************************************
-
-    frame[100,100] = [0,0,0]				#draws a small straight black
-    frame[101,100] = [0,0,0]				#line where pixels are
+#draws a small straight black
+#line where pixels are
+#Essential has zero use currently
+    frame[100,100] = [0,0,0]
+    frame[101,100] = [0,0,0]
     frame[102,100] = [0,0,0]
-
 #*******************************************
 #Red Contour lines
     ret,thresh = cv2.threshold(mask2,127,255,1)
-
     im2,contours,h = cv2.findContours(thresh,1,2)
-
-    cv2.drawContours(frame, contours, -1, (0,0,255), 1)
-
-    cv2.imshow('Contours',frame) #having difficulties displaying contour lines on this window and not the original frame
-    cv2.moveWindow('Contours',500,350)
+    #cv2.drawContours(frame, contours, -1, (0,0,255), 1)
+    #cv2.imshow('Contours',frame)    #having difficulties displaying contour lines on this window and not the original frame
+    #cv2.moveWindow('Contours',500,350)
 #*******************************************
 #White Boundary Boxes
+
+    CropBox = []
+
     for contour in contours:
         tempRect = cv2.minAreaRect(contour) #returns the [(x,y),(width,height),(rotation)] of contour lines
 
@@ -80,14 +78,26 @@ while(True):
         x = int(tempRect[0][0])
         y = int(tempRect[0][1])
         
-        if (width > 25) & (width < 35) & (height > 14) & (height < 30): #roughly the size of our boxes
+        if (width > 25) & (width < 35) & (height > 14) & (height < 30): #roughly the size of our boxes. ***Would not work if camera got closer or further***
             cv2.rectangle(frame,(x-14,y-8),(width+x-14,height+y-8),(255,255,0),1) #x,y seem to be off by a factor??? why?
-#            print "width: %f " %width  #Helpful figuring out the right approximated heights and width of boxes
-#            print " height: %f"  %height
-
-    cv2.imshow('Original',frame)
+            #print "width: %f " %width  #Helpful figuring out the right approximated heights and width of boxes
+            #print " height: %f"  %height  #not need for now
+            CropBox.append([x,y,width,height])
+    cv2.imshow('Original',frame)    #Show frame, currently need to get the countour lines off but still show it in "Contour" window
+    cv2.moveWindow('Original', 0, 0)
 #*******************************************
-#captures image of frame then quits
+#Crops images
+#NOTE: its frame[y: y + h, x: x + w] and *not* img[x: x + w, y: y + h]
+    x = CropBox[0][0] - 14
+    y = CropBox[0][1] - 8
+    w = CropBox[0][2]
+    h = CropBox[0][3]
+
+    crop_img = frame[y:y+h,x:x+w] # Crop from x, y, w, h -> 0, 0, 100, 100
+    cv2.imshow("cropped", crop_img)
+#*******************************************
+# Esc closes the program
+# 'a' captures a still image, saves it, then quits
 
     k = cv2.waitKey(5) & 0xFF
     if k == 27: #ESC  to quit
