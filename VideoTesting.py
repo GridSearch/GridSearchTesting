@@ -77,7 +77,7 @@ while(True):
         height = int(tempRect[1][1])
         x = int(tempRect[0][0])
         y = int(tempRect[0][1])
-        
+
         if (width > 25) & (width < 35) & (height > 14) & (height < 30): #roughly the size of our boxes. ***Would not work if camera got closer or further***
             cv2.rectangle(frame,(x-14,y-8),(width+x-14,height+y-8),(255,255,0),1) #x,y seem to be off by a factor??? why?
             #print "width: %f " %width  #Helpful figuring out the right approximated heights and width of boxes
@@ -97,7 +97,7 @@ while(True):
     y2 = CropBox[1][1] - 8
     w2 = CropBox[1][2]
     h2 = CropBox[1][3]
-    
+
     crop_img = frame[y:y+h,x:x+w] # Crop from x, y, w, h -> 0, 0, 100, 100
     crop_img2 = frame[y2:y2+h,x2:x2+w] #
     numpy_horizontal = np.hstack((crop_img,crop_img2))
@@ -126,10 +126,10 @@ while(True):
     if k == 27: #ESC  to quit
         print "Quitting"
         break
-    if cv2.waitKey(1) & 0xFF == ord('a'):
-        cv2.imwrite('BlueGrid.png',frame)
-        print "captured image"
-        break
+    while cv2.waitKey(1) & 0xFF != ord('a'):
+        continue
+
+
 
 # When everything done, release the capture
 cap.release()
