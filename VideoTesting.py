@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import math
 #Tests isolating red leds and blue boxs colors in buff_test_video_01.mpeg video file
-
+#test jupyter
 cap = cv2.VideoCapture("buff_test_video_01.mpeg")
 
 while(True):
@@ -62,9 +62,9 @@ while(True):
 #Red Contour lines
     ret,thresh = cv2.threshold(mask2,127,255,1)
     im2,contours,h = cv2.findContours(thresh,1,2)
-    #cv2.drawContours(frame, contours, -1, (0,0,255), 1)
-    #cv2.imshow('Contours',frame)    #having difficulties displaying contour lines on this window and not the original frame
-    #cv2.moveWindow('Contours',500,350)
+    cv2.drawContours(frame, contours, -1, (0,0,255), 1)
+    cv2.imshow('Contours',frame)    #having difficulties displaying contour lines on this window and not the original frame
+    cv2.moveWindow('Contours',500,350)
 #*******************************************
 #White Boundary Boxes
 
@@ -72,7 +72,6 @@ while(True):
 
     for contour in contours:
         tempRect = cv2.minAreaRect(contour) #returns the [(x,y),(width,height),(rotation)] of contour lines
-
         width = int(tempRect[1][0])
         height = int(tempRect[1][1])
         x = int(tempRect[0][0])
@@ -114,7 +113,7 @@ while(True):
             y = values[1] - 8
             crop_img = frame[y:y+h,x:x+w]
             newcrop = np.hstack((newcrop,crop_img))
-        newcrop = cv2.resize(newcrop,(0,0),None,3,3)
+        newcrop = cv2.resize(newcrop,(0,0),None,4,4)
         cv2.imshow('Cropping', newcrop)
         cv2.moveWindow('Cropping', 0, 0)
 
@@ -126,7 +125,7 @@ while(True):
     if k == 27: #ESC  to quit
         print "Quitting"
         break
-    while cv2.waitKey(1) & 0xFF != ord('a'):
+    while cv2.waitKey(1) & 0xFF == ord('a'):
         continue
 
 
@@ -134,3 +133,12 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+
+
+
+'''
+detect shape first
+
+
+machine learning
+'''
